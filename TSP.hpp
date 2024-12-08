@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-
 #include "Node.hpp"
 
 namespace TSP {
@@ -58,5 +57,5 @@ namespace TSP {
  *       As such, the first weight will ALWAYS equal 0, since there is no edge from the start city to itself
  *
  */
-  Tour nearestNeighbor(std::list<Node> cities, const size_t& start_id = 1);
+  TSP::Tour nearestNeighbor(std::list<Node> cities, const size_t& start_id = 1);
 };

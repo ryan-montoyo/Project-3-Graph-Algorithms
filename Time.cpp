@@ -10,7 +10,7 @@
  * @return The result of executing the function `func` with parameters `param1` and `param2`.
  * 
  * @tparam T The return type of the function.
- * @tparam S The type of the first parameter.
+ * @tparam S The type of the first parameter. 
  * @tparam R The type of the second parameter.
  */
 template <typename T, typename S, typename R>

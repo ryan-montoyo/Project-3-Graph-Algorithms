@@ -1,4 +1,7 @@
 #include "TSP.hpp"
+#include <limits>
+#include <unordered_set>
+#include <algorithm>
 
 /**
  * Displays the edges and total distance of the tour.
@@ -43,3 +46,29 @@ std::list<Node> TSP::constructCities(const std::string& filename) {
   }
   return cities;
 }
+
+  /**
+ * Constructs a tour using the nearest neighbor heuristic for the traveling salesperson problem (TSP).
+ * Starting from the city of the given ID, it iteratively visits the nearest unvisited city and returns to the start.
+ *
+ * @param cities A list of `Node` objects representing the cities to be visited.
+ * @param start_id The unique identifier of the starting city.
+ * @return A `TSP::Tour` object representing the path, edge weights, and total distance of the computed tour.
+ * 
+ * @pre `start_id` must be a valid city ID within the range of IDs in `cities`.
+ * @note The ith weight in `weights` is the distance traveled from the previous (i-1) city to the current i city (represented by the ith city in the returned Tour.path)
+ *       As such, the first weight will ALWAYS equal 0, since there is no edge from the start city to itself
+ *
+ */
+namespace TSP {
+TSP::Tour nearestNeighbor(std::list<Node> cities, const size_t& start_id) {
+
+  // Initialize our tour object called tour
+  TSP::Tour tour;
+
+
+  // Return the completed tour
+  return tour;
+}
+}
+
