@@ -63,12 +63,94 @@ std::list<Node> TSP::constructCities(const std::string& filename) {
 namespace TSP {
 TSP::Tour nearestNeighbor(std::list<Node> cities, const size_t& start_id) {
 
-  // Initialize our tour object called tour
+  // Initialize our tour object
   TSP::Tour tour;
 
+  std::list<Node>::iterator start_it = cities.end();
 
-  // Return the completed tour
+  // search cities for start node
+  for (auto it = cities.begin(); it != cities.end(); it++) {
+    if (it->id == start_id) {
+      start_it = it;
+      break;  // found, so break
+    }
+  }
+
+  // if not found, throw error
+  if (start_it == cities.end()) {
+    throw std::runtime_error("Starting node not found.");
+  }
+
+
+  // set current node as starting node
+  Node current = *start_it;
+
+  // add start/current to path
+  tour.path.push_back(current);
+
+  // track visited in set
+  std::unordered_set<size_t> visited;  
+  
+  // mark current as visted
+  visited.insert(current.id);
+
+  // initialize distance as 0 
+  size_t total_distance = 0;
+
+  // first weight is 0 since the tour starts here
+  tour.weights.push_back(0);  
+
+  // visit all cities
+  while (visited.size() < cities.size()) {
+    // set minimum distance to a really large value
+    double min_distance = std::numeric_limits<double>::max();  
+    // set nearest node iterator to end 
+    auto nearest_it = cities.end();                            
+
+    // Find the nearest unvisited node
+    for (auto it = cities.begin(); it != cities.end(); it++) {
+      // If noed isnt visited
+      if (visited.find(it->id) == visited.end()) {
+        // Calculate distance to the current node
+        double distance = current.distance(*it);
+
+        //  Check if distance is smallest weve seen, if so update it
+        if (distance < min_distance) {
+          min_distance = distance;
+          nearest_it = it;
+        }
+      }
+    }
+
+    // Add the nearest node to the tour
+    if (nearest_it != cities.end()) {
+      // Set current node to the nearest node
+      current = *nearest_it;
+      // Add the nearest node to the path
+      tour.path.push_back(current);
+      // Add the distance to the weights
+      tour.weights.push_back(min_distance);
+      // Update the total distance
+      total_distance += min_distance;
+      // Mark the nearest node as visited
+      visited.insert(current.id);
+    }
+  }
+
+  // Calculate the distance back to the starting node
+  size_t return_distance = current.distance(*start_it);
+  // Push startin gnode to the end of the path vector
+  tour.path.push_back(*start_it);
+  // Add the return distance to the weights
+  tour.weights.push_back(return_distance);
+  // Update the total distance
+  total_distance += return_distance;
+
+  // Set the total distance of the tour
+  tour.total_distance = total_distance;
+
   return tour;
 }
 }
+
 
